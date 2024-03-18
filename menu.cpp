@@ -7,7 +7,7 @@
 using namespace std ;
 
 
-// 1. DECLARAR METODOS
+// 1. DECLARAR METODOS A USAR
 void sumaMultiplicacion();
 
 // DETERMINAR SI UN NUMERO ES PAR O IMPAR
