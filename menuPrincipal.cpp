@@ -7,6 +7,8 @@
 #include <algorithm> //Para caso 4. 
 #include <sstream> // Para caso 12.
 #include <vector>
+#include <windows.h>
+#include <conio.h>
 
 
 using namespace std;
@@ -17,13 +19,23 @@ void sumaMultiplicacion(); // 1. DECLARAR METODOS A USAR  --- Axel
 void paroImpar(); // 2. DETERMINAR SI UN NUMERO ES PAR O IMPAR  -- Axel
 void conversiones();    // 3. Converiones de unidades  --- Axel
 void palindromo();         // 4. Determinar si una palabra o un número es palíndromo. -- Paula
+void conversionArabigoRomano(int numero); // 5. fucion para convertir de arabigo a romano -- Erick
+void convertirEnteroALetra();           // 6. CONVERSION DE NUMEROS ENTEROS A LETRAS -- Henry
 void conversionNumeroLetras(); // 7. Conversion numero entero con decimales a letras -- Axel
 void tabla_multiplicar();  // 8. Una tabla de multiplicar.  -- Paula
+void todasLasTablasDeMultiplicar(); // 9. imprime todas las tablas de multiplicar del 1 al 10 -- Erick
+void graficaMultiplicacionManual();     // 10. CREAR DE FORMA GRAFICA LA MULTIPLICACION MANUAL 45x32 -- Henry
 void decimalBinario();    // 11. Convertir numero decimal a binario -- Axel
 void hexadecimales();     // 12. Conversión de números decimales a hexadecimales. -- Paula
+void moverPunto();        // 14. MOVER UN PUNTO EN TODA LA PANTALLA -- Henry
+void figurasbasicas();    // 13. implica la creacion de figuras geometricas basicas -- Erick
 void cajeroAutomatico();  // 15. Simulacion de un cajero automatico -- Axel
-void hipotenusa();        // 16. Calcular la Hipotenusa. 
-void edad();              // 19. Determinar si una persona es mayor o menor de edad.
+void hipotenusa();        // 16. Calcular la Hipotenusa.  -- Paula
+void matriz();            // 17. numeros aleatorios para introducirlos en una sola matriz -- Erick
+void calcularPromedioPrecios(); // 18. INGRESAR 3 PRODUCTOS CON SU PRECIO Y CALCULAR PROMEDIO DE LOS PRECIOS -- Henry
+void edad();              // 19. Determinar si una persona es mayor o menor de edad. -- Paula
+void contarVocales();                   // 20. CONTAR LAS VOCALES DE UNA FRASE-- henry
+
 
 bool espalindromo (const std::string & str) { //Funcion para caso 4.
         std::string strCopy= str;
@@ -97,9 +109,14 @@ int main()
             	break;
             
             case 5:
-            	break;
+            	int num;
+            	cout << "Ingrese el numero a convertir a romano: ";
+                cin >> num;
+                conversionArabigoRomano(num);
+                break;
             
             case 6:
+            	convertirEnteroALetra();
             	break;
             	
             case 7:
@@ -111,9 +128,11 @@ int main()
             	break;
             
             case 9:
+            	todasLasTablasDeMultiplicar();
             	break;
             
             case 10:
+            	graficaMultiplicacionManual();
             	break;
             
             case 11:
@@ -126,9 +145,11 @@ int main()
             	
             	
             case 13:
-            	break;
+                figurasbasicas();
+            	break; 
             
             case 14:
+            	moverPunto(); 
             	break;
             
             case 15: 
@@ -140,9 +161,11 @@ int main()
             	break;
             	
             case 17:
+            	matriz();
             	break;
             
             case 18:
+            	calcularPromedioPrecios();
             	break;
             	
             case 19:
@@ -150,6 +173,7 @@ int main()
             	break;
         
             case 20:
+            	contarVocales(); 
             	break;
             
             
@@ -268,6 +292,67 @@ void palindromo(){
 		   }
 	   }
 
+// 5. fucion para convertir de arabigo a romano
+void conversionArabigoRomano(int numero) {
+	int valores[] = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
+    string simbolos[] = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
+    
+    // Construir el número romano
+    string romano = "";
+    for (int i = 0; i < 13; ++i) {
+        while (numero >= valores[i]) {
+            romano += simbolos[i];
+            numero -= valores[i];
+        }
+    }
+    cout << romano;
+}
+
+// 6. Convertir entero a letra
+// Definimos 4 arreglos unidades,decenas,centenas y especiales
+	string unidades[] = {"", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve"};
+	string especiales[] = {"diez", "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve"};
+	string decenas[] = {"", "diez", "veinte", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa"};
+	string centenas[] = {"", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos"};
+// Funcion para permitir que al ingresar un numero como entrada y lo devuelve en Letras
+string convertir(int numero) {
+    if (numero == 1000)
+        return "mil";
+    else if (numero >= 100) {
+        int centena = numero / 100;
+        int resto = numero % 100;
+        if (resto == 0)
+            return centenas[centena];
+        else
+            return centenas[centena] + " " + convertir(resto);
+    }
+    else if (numero >= 20) {
+        int decena = numero / 10;
+        int resto = numero % 10;
+        if (resto == 0)
+            return decenas[decena];
+        else
+            return decenas[decena] + " y " + convertir(resto);
+    }
+    else if (numero >= 10) {
+        return especiales[numero - 10];
+    }
+    else {
+        return unidades[numero];
+    }
+}
+// Aqui se implementa la funcion correspondiente a la opcion 7
+void convertirEnteroALetra(){ 
+	int numero;
+    cout << "Ingrese un numero del 1 al 1000: ";
+    cin >> numero;
+    if (numero >= 1 && numero <= 1000) {
+        cout << "El numero " << numero << " en letras es: " << convertir(numero) << endl;
+    } else {
+        cout << "El numero ingresado está fuera del rango permitido." << endl;
+    }
+}
+
 // 7. Conversion de numeros con decimales a letras 
 
 string convertir_entero(int numero) {
@@ -353,6 +438,40 @@ void tabla_multiplicar(){
 	
 }
 
+// 9. Tablas de multiplicar
+void todasLasTablasDeMultiplicar() {
+    for (int i = 1; i <= 10; ++i) {
+        cout << "\nTabla de multiplicar del " << i << ":" << endl;
+        for (int j = 1; j <= 10; ++j) {
+            cout << i << " x " << j << " = " << i * j << endl;
+        }
+        cout << "-------------------" << endl;
+    }
+}
+
+// 10 Grafica Multiplicacion Manual 
+void graficaMultiplicacionManual(){
+
+	// Declaramos nuestras variables
+    int num1 = 45;
+    int num2 = 32;
+
+    // Proceso de la operacion 45 * 32
+    int producto = num1 * num2;
+    int productoParcial1 = num1 * (num2 % 10);
+    int productoParcial2 = num1 * (num2 / 10) * 10;
+
+    // Presentacion grafica de la operacion 45 * 32
+    cout << setw(10) << num1 << endl;
+    cout << "x" << setw(9) << num2 << endl;
+    cout << setw(11) << setfill('-') << "" << setfill(' ') << endl;
+    cout << setw(10) << productoParcial1 << endl;
+    cout << setw(10) << productoParcial2 << endl;
+    cout << setw(11) << setfill('-') << "" << setfill(' ') << endl;
+    cout << setw(10) << producto << endl;
+}
+
+
 // 11. Conversion de numeros decimales a binarios
 
 void decimalBinario(){
@@ -392,6 +511,142 @@ void hexadecimales(){
 	
 	
 }
+
+// 13. FIGURAS GEOMETRICAS
+void figurasbasicas() {
+
+ int opcion;
+    
+    cout << "Seleccione la figura geométrica que desea ver:" << endl;
+    cout << "1. Cuadrado" << endl;
+    cout << "2. Rectángulo" << endl;
+    cout << "3. Triángulo" << endl;
+    cout << "4. Círculo" << endl;
+    cout << "Ingrese el número correspondiente a la opción: ";
+    cin >> opcion;
+
+    switch(opcion) {
+        case 1: {
+            int lado;
+            cout << "Ingrese el tamaño del lado del cuadrado: ";
+            cin >> lado;
+            for (int i = 0; i < lado; ++i) {
+                for (int j = 0; j < lado; ++j) {
+                    cout << "* ";
+                }
+                cout << endl;
+            }
+            break;
+        }
+        case 2: {
+            int ancho, alto;
+            cout << "Ingrese el ancho del rectángulo: ";
+            cin >> ancho;
+            cout << "Ingrese la altura del rectángulo: ";
+            cin >> alto;
+            for (int i = 0; i < alto; ++i) {
+                for (int j = 0; j < ancho; ++j) {
+                    cout << "* ";
+                }
+                cout << endl;
+            }
+            break;
+        }
+        case 3: {
+            int altura;
+            cout << "Ingrese la altura del triángulo: ";
+            cin >> altura;
+            for (int i = 0; i < altura; ++i) {
+                for (int j = 0; j <= i; ++j) {
+                    cout << "* ";
+                }
+                cout << endl;
+            }
+            break;
+        }
+        case 4: {
+            int radio;
+            cout << "Ingrese el radio del círculo: ";
+            cin >> radio;
+            for (int i = -radio; i <= radio; ++i) {
+                for (int j = -radio; j <= radio; ++j) {
+                    if (sqrt(i * i + j * j) <= radio) {
+                        cout << "* ";
+                    } else {
+                        cout << "  ";
+                    }
+                }
+                cout << endl;
+            }
+            break;
+        }
+        default:
+            cout << "Opción inválida." << endl;
+    }
+}
+
+// 14 Mover Punto
+void moverPunto(){
+	 
+  	// Coordenadas iniciales del punto
+    int x = 0;
+    int y = 0;
+
+    // Limpiar la pantalla
+    system("cls");
+
+    // Bucle para mover el punto
+    while (true) {
+        // Limpiar la pantalla
+        system("cls");
+
+        // Dibujar el punto en las coordenadas actuales
+        for (int i = 0; i < y; ++i)
+            cout <<endl;
+        for (int i = 0; i < x; ++i)
+            cout << " ";
+        cout << "*";
+
+        // Esperar un momento antes de mover el punto
+        Sleep(100);
+
+        // Borrar el punto actual
+        cout << "\b \b";
+
+        // Cambiar las coordenadas del punto
+        x = (x + 1) % 80; // Asegurar que x esté en el rango de 0 a 79
+        y = (y + 1) % 24; // Asegurar que y esté en el rango de 0 a 23
+    }
+    
+    int opcion;
+    bool repetir = true;
+    
+    do {
+        cout << "\n\n\t\t\tMenu de Opciones" <<endl;
+        cout << "\t\t\t----------------" <<endl;
+        // Opciones del menu
+        cout<< "\n\t14. MOVER UN PUNTO EN TODA LA PANTALLA" <<endl;
+        // Otras opciones del menu
+        cout << "\n\t0. SALIR" <<endl;
+        
+        cout << "\n\tIngrese una opcion: ";
+        cin >> opcion;
+        
+        switch (opcion) {
+            // Otros cases...
+            case 14:
+                moverPunto();
+                break;
+            // Otros cases...
+            case 0:
+                repetir = false;
+                break;
+        }
+    }while (repetir);
+  
+}
+
+
 
 // 15. Simulacion de cajero automatico
 void cajeroAutomatico(){
@@ -470,6 +725,59 @@ void hipotenusa(){
 	cout<<"La hipotenusa es: "<<res<<endl;	
 }
 
+// 17. Matriz
+void matriz() {
+    const int filas = 3;
+    const int columnas = 3;
+    int matriz[filas][columnas];
+
+    // Inicializar la semilla de tiempo para obtener números aleatorios diferentes en cada ejecución
+    srand(time(0));
+
+    // Llenar la matriz con números aleatorios
+    for (int i = 0; i < filas; ++i) {
+        for (int j = 0; j < columnas; ++j) {
+            matriz[i][j] = rand() % 100; // Generar un número aleatorio entre 0 y 99
+        }
+    }
+
+    // Mostrar la matriz
+    cout << "Matriz generada:" << endl;
+    for (int i = 0; i < filas; ++i) {
+        for (int j = 0; j < columnas; ++j) {
+            cout << matriz[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
+
+// 18. Calcular Promedio de precios
+void calcularPromedioPrecios(){
+	
+	const int numProductos = 3;
+    string productos[numProductos];
+    double precios[numProductos];
+    double sumaPrecios = 0;
+
+    // Solicita pruducto y precios
+    for (int i = 0; i < numProductos; ++i) {
+        cout << "\nIngrese el nombre del producto " << i + 1 << ": ";
+        cin >> productos[i];
+        cout << "Ingrese el precio de " << productos[i] << ": Q";
+        cin >> precios[i];
+        sumaPrecios += precios[i];
+    }
+
+    // Calculo del promedio de los precios de los productos ingresados
+    double promedio = sumaPrecios / numProductos;
+
+    cout << "\nProductos ingresados y sus precios:\n";
+    for (int i = 0; i < numProductos; ++i) {
+        cout << productos[i] << ": Q " << fixed << setprecision(2) << precios[i] << endl;
+    }
+    cout << "\nEl promedio de los productos es: Q " << fixed << setprecision(2) << promedio << endl;
+}
+
 // 19. Determinar si una persona es mayor o menor de edad.
 void edad(){
 	int edad;
@@ -482,4 +790,25 @@ void edad(){
 	}else{
 		cout<<"La persona es menor de edad."<<endl;
 	}
+}
+
+// Aqui se implementa la funcion correspondiente a la opcion 20
+void contarVocales() {
+    string frase;
+    int contadorVocales = 0;
+
+    // Solicita igresar una frase
+    cout << "Ingrese una frase: ";
+    cin.ignore(); // Ignorar el salto de linea anterior
+    getline(cin, frase); // lee la frase
+
+    // Cuenta las vocales
+    for (char caracter : frase) {
+        caracter = tolower(caracter);
+        if (caracter == 'a' || caracter == 'e' || caracter == 'i' || caracter == 'o' || caracter == 'u') {
+            contadorVocales++;
+        }
+    }
+
+    cout << "La cantidad de vocales en la frase es: " << contadorVocales << endl;
 }
